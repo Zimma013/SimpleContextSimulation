@@ -36,7 +36,10 @@ public class Application {
 				.timeRangeThreeStart(18D)
 				.timeRangeThreeEnd(5D)
 				.timeRangeThreeModifier(2D)
+				.iterationCount((int) (1/iterationTimeOffset * 24))
 				.build();
+
+		simulator.simulate();
 
 
 		String excelFilePath = "NiceContextData.xls";

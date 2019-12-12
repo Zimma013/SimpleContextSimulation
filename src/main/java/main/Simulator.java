@@ -24,22 +24,29 @@ public class Simulator {
 	private Double timeRangeTwoModifier;
 	private Double timeRangeThreeModifier;
 
+	public void simulate() {
+		for (int i = 0; i < iterationCount; i++) {
+			getSampleIteration(i);
+		}
+	}
 
 	private void getSampleIteration(int iterationNumber) {
 		iterationDataCounter = new IterationDataCounter();
 		int currentPopulationCount = 0;
 		double iterationTime = iterationNumber * singleIterationTimeOffset + startTime; // should range from startTime to 24 + startTime (29)
-		if (iterationNumber <= (iterationCount/2)) {
+		if (iterationNumber <= (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
 			currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationTime) * maxPopulation);
 		} else {
-			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationTime) * maxPopulation);
+			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationTime/(24+startTime)) * maxPopulation);
 		}
 
 		// one iteration is checking one person from population
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
 			// weather alerts
+			//TODO:: generate weather alerts
 
 			// situation alerts
+			//TODO:: generate situation alerts
 		}
 
 		Application.excelWriter.addToDataList(iterationDataCounter);
