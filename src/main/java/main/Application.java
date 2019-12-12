@@ -24,6 +24,7 @@ public class Application {
 				.maxPopulation(maxPopulation)
 				.singleIterationTimeOffset(iterationTimeOffset)
 				.startTime(5D)
+				.peakTime(mean)
 //				.endTime(24D + 5D - iterationTimeOffset)
 				.iterationCount(iterationCount)
 				.build();

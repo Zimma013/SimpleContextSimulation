@@ -7,11 +7,17 @@ public class Simulator {
 	private int maxPopulation;
 	private Double startTime;
 	private Double endTime;
+	private Double peakTime;
 	private Double singleIterationTimeOffset;
 	private int iterationCount;
 
 	private void getSampleIteration(int iterationNumber) {
-		int currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationNumber * singleIterationTimeOffset /* iteration time */) * maxPopulation);
+		int currentPopulationCount = 0;
+		if (iterationNumber <= (iterationCount/2)) {
+			currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationNumber * singleIterationTimeOffset /* iteration time */) * maxPopulation);
+		} else {
+			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationNumber * singleIterationTimeOffset /* iteration time */) * maxPopulation);
+		}
 
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
 			// weather alerts
@@ -26,6 +32,7 @@ public class Simulator {
 		maxPopulation = builder.maxPopulation;
 		startTime = builder.startTime;
 		endTime = builder.endTime;
+		peakTime = builder.peakTime;
 		singleIterationTimeOffset = builder.singleIterationTimeOffset;
 		iterationCount = builder.iterationCount;
 	}
@@ -35,6 +42,7 @@ public class Simulator {
 		private int maxPopulation;
 		private Double startTime;
 		private Double endTime;
+		private Double peakTime;
 		private Double singleIterationTimeOffset;
 		private int iterationCount;
 
@@ -58,6 +66,11 @@ public class Simulator {
 
 		public Builder endTime(Double val) {
 			endTime = val;
+			return this;
+		}
+
+		public Builder peakTime(Double val) {
+			peakTime = val;
 			return this;
 		}
 
