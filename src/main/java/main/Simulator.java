@@ -13,10 +13,11 @@ public class Simulator {
 
 	private void getSampleIteration(int iterationNumber) {
 		int currentPopulationCount = 0;
+		Double iterationTime = iterationNumber * singleIterationTimeOffset;
 		if (iterationNumber <= (iterationCount/2)) {
-			currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationNumber * singleIterationTimeOffset /* iteration time */) * maxPopulation);
+			currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationTime) * maxPopulation);
 		} else {
-			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationNumber * singleIterationTimeOffset /* iteration time */) * maxPopulation);
+			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationTime) * maxPopulation);
 		}
 
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
