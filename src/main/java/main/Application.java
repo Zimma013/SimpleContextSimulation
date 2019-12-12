@@ -9,7 +9,6 @@ import java.math.RoundingMode;
 public class Application {
 
 	public static ExcelWriter excelWriter = new ExcelWriter();
-
 	// Simulation params
 	private static final Double mean = 14D; // peak time of population in simulation
 	private static final Double standardDeviation = 5D; // https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html

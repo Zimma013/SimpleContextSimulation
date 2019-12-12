@@ -2,6 +2,11 @@ package main;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Simulator {
 
 	public IterationDataCounter iterationDataCounter;
@@ -23,8 +28,22 @@ public class Simulator {
 	private Double timeRangeOneModifier;
 	private Double timeRangeTwoModifier;
 	private Double timeRangeThreeModifier;
+	private ArrayList<Integer> personsInGroup;
 
 	public void simulate() {
+		personsInGroup = new ArrayList<>();
+		for (int k = 0; k< maxPopulation*0.3; k++)
+		{
+			while (true) {
+				int randomNum = ThreadLocalRandom.current().nextInt(1, maxPopulation);
+				if (!Arrays.asList(personsInGroup).contains(randomNum))
+				{
+					personsInGroup.add(randomNum);
+					break;
+				}
+			}
+
+		}
 		for (int i = 0; i < iterationCount; i++) {
 			getSampleIteration(i);
 		}
@@ -43,10 +62,69 @@ public class Simulator {
 		// one iteration is checking one person from population
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
 			// weather alerts
+			Random rnd = new Random();
+			double weatherPercentage = 0.25;
+			double animalPercentage = 0.05;
+			double leaderPercentage = 0.05;
+			double noMovementPercentage = 0.05;
+			double offTrailPercentage = 0.10;
 			//TODO:: generate weather alerts
+			//TODO Inkrementacja Individuality, Time
+			iterationDataCounter.setIndividualityEventCounter(iterationDataCounter.getIndividualityEventCounter()+1);
+			iterationDataCounter.setTimeEventCounter(iterationDataCounter.getTimeEventCounter()+1);
+			if(iterationTime >= this.timeRangeOneStart && iterationTime < this.timeRangeOneEnd)
+			{
+				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeOneModifier)
+				{
+					//TODO Inkrementacja P
+					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+				}
+			} else if(iterationTime >= this.timeRangeTwoStart && iterationTime < this.timeRangeTwoEnd)
+			{
+				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeTwoModifier)
+				{
+					//TODO Inkrementacja P
+					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+				}
+			}
+			else {
+				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeThreeModifier)
+				{
+					//TODO Inkrementacja P
+					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+				}
+			}
 
 			// situation alerts
 			//TODO:: generate situation alerts
+			if(rnd.nextDouble() <= animalPercentage)
+			{
+				//TODO Inkrementacja relation
+				//TODO Inkrementacja S
+				iterationDataCounter.setRelationEventCounter(iterationDataCounter.getRelationEventCounter()+1);
+				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+			}
+			else if((Arrays.asList(personsInGroup).contains(pop)) && (rnd.nextDouble() <= leaderPercentage))
+			{
+				//TODO Inkrementacja relation
+				//TODO Inkrementacja S
+				iterationDataCounter.setRelationEventCounter(iterationDataCounter.getRelationEventCounter()+1);
+				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+			}
+			else if(rnd.nextDouble() <= noMovementPercentage)
+			{
+				//TODO Inkrementacja activity
+				//TODO Inkrementacja S
+				iterationDataCounter.setActivityEventCounter(iterationDataCounter.getActivityEventCounter()+1);
+				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+			}
+			else if(rnd.nextDouble() <= offTrailPercentage)
+			{
+				iterationDataCounter.setLocationEventCounter(iterationDataCounter.getLocationEventCounter()+1);
+				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+				//TODO Inkrementacja location
+				//TODO Inkrementacja S
+			}
 		}
 
 		Application.excelWriter.addToDataList(iterationDataCounter);
