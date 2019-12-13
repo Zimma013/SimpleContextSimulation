@@ -1,6 +1,7 @@
 package main;
 
 public class IterationDataCounter {
+    private double IterationTime;
     private int RelationEventCounter;
     private int ActivityEventCounter;
     private int LocationEventCounter;
@@ -10,6 +11,7 @@ public class IterationDataCounter {
     private int WeatherAlertCounter; // licznik P
 
     public IterationDataCounter() {
+        IterationTime = 0;
         RelationEventCounter = 0;
         ActivityEventCounter = 0;
         LocationEventCounter = 0;
@@ -17,6 +19,14 @@ public class IterationDataCounter {
         IndividualityEventCounter = 0;
         TimeEventCounter = 0;
         WeatherAlertCounter = 0;
+    }
+
+    public double getIterationTime() {
+        return IterationTime;
+    }
+
+    public void setIterationTime(double iterationTime) {
+        IterationTime = iterationTime;
     }
 
     public int getRelationEventCounter() {
@@ -73,5 +83,33 @@ public class IterationDataCounter {
 
     public void setWeatherAlertCounter(int weatherAlertCounter) {
         WeatherAlertCounter = weatherAlertCounter;
+    }
+
+    public void incrementWeatherAlertCounter(int i) {
+        this.setWeatherAlertCounter(this.getWeatherAlertCounter() + i);
+    }
+
+    public void incrementRelationCounter(int i) {
+        this.setTimeEventCounter(this.getTimeEventCounter() + i);
+    }
+
+    public void incrementLocationCounter(int i) {
+        this.setIndividualityEventCounter(this.getIndividualityEventCounter() + i);
+    }
+
+    public void incrementSituationAlertCounter(int i) {
+        this.setSituationAlertCounter(this.getSituationAlertCounter() + i);
+    }
+
+    public void incrementActivityCounter(int i) {
+        this.setIndividualityEventCounter(this.getIndividualityEventCounter() + i);
+    }
+
+    public void incrementTimeCounter(int i) {
+        this.setTimeEventCounter(this.getTimeEventCounter() + i);
+    }
+
+    public void incrementIndividualityCounter(int i) {
+        this.setIndividualityEventCounter(this.getIndividualityEventCounter() + i);
     }
 }

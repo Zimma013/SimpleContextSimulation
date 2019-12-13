@@ -2,9 +2,7 @@ package main;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Simulator {
@@ -30,6 +28,14 @@ public class Simulator {
 	private Double timeRangeThreeModifier;
 	private ArrayList<Integer> personsInGroup;
 
+	private double weatherPercentage;
+	private double animalPercentage;
+	private double leaderPercentage;
+	private double noMovementPercentage;
+	private double offTrailPercentage;
+
+	private Stack<Double> invertedNormalDistribution = new Stack<>();
+
 	public void simulate() {
 		personsInGroup = new ArrayList<>();
 		for (int k = 0; k< maxPopulation*0.3; k++)
@@ -51,47 +57,54 @@ public class Simulator {
 
 	private void getSampleIteration(int iterationNumber) {
 		iterationDataCounter = new IterationDataCounter();
-		int currentPopulationCount = 0;
+		int currentPopulationCount;
 		double iterationTime = iterationNumber * singleIterationTimeOffset + startTime; // should range from startTime to 24 + startTime (29)
-		if (iterationNumber <= (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
-			currentPopulationCount = (int) (normalDistribution.cumulativeProbability(iterationTime) * maxPopulation);
+
+		iterationDataCounter.setIterationTime(iterationTime);
+		iterationNumber = iterationNumber;
+		iterationCount = iterationCount;
+		if (iterationNumber < (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
+			double normalDistributionValue = normalDistribution.cumulativeProbability(iterationTime);
+			invertedNormalDistribution.push(normalDistributionValue);
+			currentPopulationCount = (int) (normalDistributionValue * maxPopulation);
+			System.out.println("Population factor is " + normalDistributionValue);
+			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
 		} else {
-			currentPopulationCount = (int) (normalDistribution.inverseCumulativeProbability(iterationTime/(24+startTime)) * maxPopulation);
+			double reverseDistributionValue = invertedNormalDistribution.pop();
+			currentPopulationCount = (int) (reverseDistributionValue * maxPopulation);
+			System.out.println("Population factor is " + reverseDistributionValue);
+			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
 		}
 
 		// one iteration is checking one person from population
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
 			// weather alerts
 			Random rnd = new Random();
-			double weatherPercentage = 0.25;
-			double animalPercentage = 0.05;
-			double leaderPercentage = 0.05;
-			double noMovementPercentage = 0.05;
-			double offTrailPercentage = 0.10;
+
 			//TODO:: generate weather alerts
 			//TODO Inkrementacja Individuality, Time
-			iterationDataCounter.setIndividualityEventCounter(iterationDataCounter.getIndividualityEventCounter()+1);
-			iterationDataCounter.setTimeEventCounter(iterationDataCounter.getTimeEventCounter()+1);
+			iterationDataCounter.incrementIndividualityCounter(1);
+			iterationDataCounter.incrementTimeCounter(1);
 			if(iterationTime >= this.timeRangeOneStart && iterationTime < this.timeRangeOneEnd)
 			{
 				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeOneModifier)
 				{
 					//TODO Inkrementacja P
-					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			} else if(iterationTime >= this.timeRangeTwoStart && iterationTime < this.timeRangeTwoEnd)
 			{
 				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeTwoModifier)
 				{
 					//TODO Inkrementacja P
-					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			}
 			else {
 				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeThreeModifier)
 				{
 					//TODO Inkrementacja P
-					iterationDataCounter.setWeatherAlertCounter(iterationDataCounter.getWeatherAlertCounter()+1);
+					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			}
 
@@ -101,29 +114,29 @@ public class Simulator {
 			{
 				//TODO Inkrementacja relation
 				//TODO Inkrementacja S
-				iterationDataCounter.setRelationEventCounter(iterationDataCounter.getRelationEventCounter()+1);
-				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+				iterationDataCounter.incrementRelationCounter(1);
+				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if((Arrays.asList(personsInGroup).contains(pop)) && (rnd.nextDouble() <= leaderPercentage))
 			{
 				//TODO Inkrementacja relation
 				//TODO Inkrementacja S
-				iterationDataCounter.setRelationEventCounter(iterationDataCounter.getRelationEventCounter()+1);
-				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+				iterationDataCounter.incrementRelationCounter(1);
+				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if(rnd.nextDouble() <= noMovementPercentage)
 			{
 				//TODO Inkrementacja activity
 				//TODO Inkrementacja S
-				iterationDataCounter.setActivityEventCounter(iterationDataCounter.getActivityEventCounter()+1);
-				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
+				iterationDataCounter.incrementActivityCounter(1);
+				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if(rnd.nextDouble() <= offTrailPercentage)
 			{
-				iterationDataCounter.setLocationEventCounter(iterationDataCounter.getLocationEventCounter()+1);
-				iterationDataCounter.setSituationAlertCounter(iterationDataCounter.getSituationAlertCounter()+1);
 				//TODO Inkrementacja location
 				//TODO Inkrementacja S
+				iterationDataCounter.incrementLocationCounter(1);
+				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 		}
 
@@ -132,6 +145,7 @@ public class Simulator {
 
 
 	private Simulator(Builder builder) {
+		iterationDataCounter = builder.iterationDataCounter;
 		normalDistribution = builder.normalDistribution;
 		maxPopulation = builder.maxPopulation;
 		startTime = builder.startTime;
@@ -148,6 +162,12 @@ public class Simulator {
 		timeRangeOneModifier = builder.timeRangeOneModifier;
 		timeRangeTwoModifier = builder.timeRangeTwoModifier;
 		timeRangeThreeModifier = builder.timeRangeThreeModifier;
+		personsInGroup = builder.personsInGroup;
+		weatherPercentage = builder.weatherPercentage;
+		animalPercentage = builder.animalPercentage;
+		leaderPercentage = builder.leaderPercentage;
+		noMovementPercentage = builder.noMovementPercentage;
+		offTrailPercentage = builder.offTrailPercentage;
 	}
 
 	public static final class Builder {
@@ -167,6 +187,13 @@ public class Simulator {
 		private Double timeRangeOneModifier;
 		private Double timeRangeTwoModifier;
 		private Double timeRangeThreeModifier;
+		private ArrayList<Integer> personsInGroup;
+		private double weatherPercentage;
+		private double animalPercentage;
+		private double leaderPercentage;
+		private double noMovementPercentage;
+		private double offTrailPercentage;
+		private IterationDataCounter iterationDataCounter;
 
 		public Builder() {
 		}
@@ -251,8 +278,43 @@ public class Simulator {
 			return this;
 		}
 
+		public Builder personsInGroup(ArrayList<Integer> val) {
+			personsInGroup = val;
+			return this;
+		}
+
+		public Builder weatherPercentage(double val) {
+			weatherPercentage = val;
+			return this;
+		}
+
+		public Builder animalPercentage(double val) {
+			animalPercentage = val;
+			return this;
+		}
+
+		public Builder leaderPercentage(double val) {
+			leaderPercentage = val;
+			return this;
+		}
+
+		public Builder noMovementPercentage(double val) {
+			noMovementPercentage = val;
+			return this;
+		}
+
+		public Builder offTrailPercentage(double val) {
+			offTrailPercentage = val;
+			return this;
+		}
+
 		public Simulator build() {
 			return new Simulator(this);
+		}
+
+		public Builder iterationDataCounter(IterationDataCounter val) {
+			iterationDataCounter = val;
+			return this;
 		}
 	}
 }

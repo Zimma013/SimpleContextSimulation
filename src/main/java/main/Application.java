@@ -22,9 +22,9 @@ public class Application {
 				.normalDistribution(new NormalDistribution(mean, standardDeviation))
 				.maxPopulation(maxPopulation)
 				.singleIterationTimeOffset(iterationTimeOffset)
-				.startTime(5D)
 				.peakTime(mean)
-				.endTime(24D + 5D - iterationTimeOffset)
+				.startTime(2.5) // to make 14:00 the middle of normal distribution
+				.endTime(24D + 2.5 - iterationTimeOffset)
 				.iterationCount(iterationCount)
 				.timeRangeOneStart(5D)
 				.timeRangeOneEnd(14D)
@@ -36,6 +36,11 @@ public class Application {
 				.timeRangeThreeEnd(5D)
 				.timeRangeThreeModifier(2D)
 				.iterationCount((int) (1/iterationTimeOffset * 24))
+				.animalPercentage(0.05)
+				.leaderPercentage(0.05)
+				.noMovementPercentage(0.05)
+				.offTrailPercentage(0.10)
+				.weatherPercentage(0.25)
 				.build();
 
 		simulator.simulate();
