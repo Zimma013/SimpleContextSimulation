@@ -57,16 +57,20 @@ public class ExcelWriter {
         cell = row.createCell(7);
         cell.setCellValue("Situation");
 
-//        cell = row.createCell(7);
-//        cell.setCellValue("AVG of Relations Data");
-//        cell = row.createCell(8);
-//        cell.setCellValue("AVG of Activity Data");
-//        cell = row.createCell(9);
-//        cell.setCellValue("AVG of Location Data");
-//        cell = row.createCell(10);
-//        cell.setCellValue("AVG of Weather Data");
-//        cell = row.createCell(11);
-//        cell.setCellValue("AVG of Time");
+        cell = row.createCell(9);
+        cell.setCellValue("AVG of Individuality");
+        cell = row.createCell(10);
+        cell.setCellValue("AVG of Time");
+        cell = row.createCell(11);
+        cell.setCellValue("AVG of Weather");
+        cell = row.createCell(12);
+        cell.setCellValue("AVG of Relation");
+        cell = row.createCell(13);
+        cell.setCellValue("AVG of Activity");
+        cell = row.createCell(14);
+        cell.setCellValue("AVG of Location");
+        cell = row.createCell(15);
+        cell.setCellValue("AVG of Situation");
     }
     private void writeData(IterationDataCounter aIterationDataCounter, Row row) {
         this.rowCount++;
@@ -90,19 +94,74 @@ public class ExcelWriter {
         cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
         cell = row.createCell(7);
         cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
-/*
+
         if (rowCount == 1) {
-            cell = row.createCell(7);
-            cell.setCellFormula("SUM(B2:B201) / " + 200);
-            cell = row.createCell(8);
-            cell.setCellFormula("SUM(C2:C201) / " + 200);
             cell = row.createCell(9);
-            cell.setCellFormula("SUM(D2:D201) / " + 200);
+            cell.setCellFormula("SUM(B2:B19) / " + 18);
             cell = row.createCell(10);
-            cell.setCellFormula("SUM(E2:E201) / " + 200);
+            cell.setCellFormula("SUM(C2:C19) / " + 18);
             cell = row.createCell(11);
-            cell.setCellFormula("SUM(F2:F201) / " + 200);
-        }*/
+            cell.setCellFormula("SUM(D2:D19) / " + 18);
+            cell = row.createCell(12);
+            cell.setCellFormula("SUM(E2:E19) / " + 18);
+            cell = row.createCell(13);
+            cell.setCellFormula("SUM(F2:F19) / " + 18);
+            cell = row.createCell(14);
+            cell.setCellFormula("SUM(G2:G19) / " + 18);
+            cell = row.createCell(15);
+            cell.setCellFormula("SUM(H2:H19) / " + 18);
+        }
+        if (rowCount == 2)
+        {
+            cell = row.createCell(9);
+            cell.setCellFormula("SUM(B20:B27) / " + 8);
+            cell = row.createCell(10);
+            cell.setCellFormula("SUM(C20:C27) / " + 8);
+            cell = row.createCell(11);
+            cell.setCellFormula("SUM(D20:D27) / " + 8);
+            cell = row.createCell(12);
+            cell.setCellFormula("SUM(E20:E27) / " + 8);
+            cell = row.createCell(13);
+            cell.setCellFormula("SUM(F20:F27) / " + 8);
+            cell = row.createCell(14);
+            cell.setCellFormula("SUM(G20:G27) / " + 8);
+            cell = row.createCell(15);
+            cell.setCellFormula("SUM(H20:H27) / " + 8);
+        }
+        if (rowCount == 3)
+        {
+            cell = row.createCell(9);
+            cell.setCellFormula("SUM(B28:B49) / " + 22);
+            cell = row.createCell(10);
+            cell.setCellFormula("SUM(C28:C49) / " + 22);
+            cell = row.createCell(11);
+            cell.setCellFormula("SUM(D28:D49) / " + 22);
+            cell = row.createCell(12);
+            cell.setCellFormula("SUM(E28:E49) / " + 22);
+            cell = row.createCell(13);
+            cell.setCellFormula("SUM(F28:F49) / " + 22);
+            cell = row.createCell(14);
+            cell.setCellFormula("SUM(G28:G49) / " + 22);
+            cell = row.createCell(15);
+            cell.setCellFormula("SUM(H28:H49) / " + 22);
+        }
+        if (rowCount == 4)
+        {
+            cell = row.createCell(9);
+            cell.setCellFormula("SUM(B2:B49) / " + 48);
+            cell = row.createCell(10);
+            cell.setCellFormula("SUM(C2:C49) / " + 48);
+            cell = row.createCell(11);
+            cell.setCellFormula("SUM(D2:D49) / " + 48);
+            cell = row.createCell(12);
+            cell.setCellFormula("SUM(E2:E49) / " + 48);
+            cell = row.createCell(13);
+            cell.setCellFormula("SUM(F2:F49) / " + 48);
+            cell = row.createCell(14);
+            cell.setCellFormula("SUM(G2:G49) / " + 48);
+            cell = row.createCell(15);
+            cell.setCellFormula("SUM(H2:H49) / " + 48);
+        }
 
     }
 
