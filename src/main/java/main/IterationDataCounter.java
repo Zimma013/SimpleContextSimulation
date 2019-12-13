@@ -90,11 +90,11 @@ public class IterationDataCounter {
     }
 
     public void incrementRelationCounter(int i) {
-        this.setTimeEventCounter(this.getTimeEventCounter() + i);
+        this.setRelationEventCounter(this.getRelationEventCounter() + i);
     }
 
     public void incrementLocationCounter(int i) {
-        this.setIndividualityEventCounter(this.getIndividualityEventCounter() + i);
+        this.setLocationEventCounter(this.getLocationEventCounter() + i);
     }
 
     public void incrementSituationAlertCounter(int i) {
@@ -102,7 +102,7 @@ public class IterationDataCounter {
     }
 
     public void incrementActivityCounter(int i) {
-        this.setIndividualityEventCounter(this.getIndividualityEventCounter() + i);
+        this.setActivityEventCounter(this.getActivityEventCounter() + i);
     }
 
     public void incrementTimeCounter(int i) {
