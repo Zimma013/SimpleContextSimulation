@@ -105,11 +105,12 @@ public class ExcelWriter {
 
         int dataFromSimulationStartRowNumber = 7;
         int dataRowNumber = 2;
+        int columnInRowStartNumber = 9;
 
         if (rowCount == 1) {
 
             for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + 8);
+                cell = row.createCell(i + columnInRowStartNumber);
                 cell.setCellFormula("SUM(" +
                         dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + 1) + ":" + dataColumnSymbols[i] + "" +
                         (dataFromSimulationStartRowNumber + firstRangeIterationCount) + ") / " + firstRangeIterationCount);
@@ -118,7 +119,7 @@ public class ExcelWriter {
         if (rowCount == 2)
         {
             for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + 8);
+                cell = row.createCell(i + columnInRowStartNumber);
                 cell.setCellFormula("SUM(" +
                         dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
                         (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount) + ") / " + secondRangeIterationCount);
@@ -127,7 +128,7 @@ public class ExcelWriter {
         if (rowCount == 3)
         {
             for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + 8);
+                cell = row.createCell(i + columnInRowStartNumber);
                 cell.setCellFormula("(SUM(" +
                         dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
                         (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - (dataFromSimulationStartRowNumber - dataRowNumber - 1)) + ") + SUM(" +
@@ -138,7 +139,7 @@ public class ExcelWriter {
         if (rowCount == 4)
         {
             for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + 8);
+                cell = row.createCell(i + columnInRowStartNumber);
                 cell.setCellFormula("SUM(" +
                         dataColumnSymbols[i] + "" + (dataRowNumber) + ":" + dataColumnSymbols[i] + "" +
                         (dataRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - 1) + ") / " + iterationCount);
