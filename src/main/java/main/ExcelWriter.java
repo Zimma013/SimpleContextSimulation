@@ -50,35 +50,35 @@ public class ExcelWriter {
         cell.setCellValue("Individuality");
 
         cell = row.createCell(2);
-        cell.setCellValue("Time");
+        cell.setCellValue("Weather");
 
         cell = row.createCell(3);
-        cell.setCellValue("Weather");
+        cell.setCellValue("Time");
 
         cell = row.createCell(4);
         cell.setCellValue("Relation");
 
         cell = row.createCell(5);
-        cell.setCellValue("Activity");
-        cell = row.createCell(6);
         cell.setCellValue("Location");
-        cell = row.createCell(7);
+        cell = row.createCell(6);
         cell.setCellValue("Situation");
+        cell = row.createCell(7);
+        cell.setCellValue("Activity");
 
         cell = row.createCell(9);
         cell.setCellValue("AVG of Individuality");
         cell = row.createCell(10);
-        cell.setCellValue("AVG of Time");
-        cell = row.createCell(11);
         cell.setCellValue("AVG of Weather");
+        cell = row.createCell(11);
+        cell.setCellValue("AVG of Time");
         cell = row.createCell(12);
         cell.setCellValue("AVG of Relation");
         cell = row.createCell(13);
-        cell.setCellValue("AVG of Activity");
-        cell = row.createCell(14);
         cell.setCellValue("AVG of Location");
-        cell = row.createCell(15);
+        cell = row.createCell(14);
         cell.setCellValue("AVG of Situation");
+        cell = row.createCell(15);
+        cell.setCellValue("AVG of Activity");
     }
     private void writeData(IterationDataCounter aIterationDataCounter, Row row) {
         this.rowCount++;
@@ -88,64 +88,67 @@ public class ExcelWriter {
         cell.setCellValue(aIterationDataCounter.getIndividualityEventCounter());
 
         cell = row.createCell(2);
-        cell.setCellValue(aIterationDataCounter.getTimeEventCounter());
+        cell.setCellValue(aIterationDataCounter.getWeatherAlertCounter());
 
         cell = row.createCell(3);
-        cell.setCellValue(aIterationDataCounter.getWeatherAlertCounter());
+        cell.setCellValue(aIterationDataCounter.getTimeEventCounter());
 
         cell = row.createCell(4);
         cell.setCellValue(aIterationDataCounter.getRelationEventCounter());
 
         cell = row.createCell(5);
-        cell.setCellValue(aIterationDataCounter.getActivityEventCounter());
-        cell = row.createCell(6);
         cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
-        cell = row.createCell(7);
+        cell = row.createCell(6);
         cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
+        cell = row.createCell(7);
+        cell.setCellValue(aIterationDataCounter.getActivityEventCounter());
 
         int dataFromSimulationStartRowNumber = 7;
         int dataRowNumber = 2;
         int columnInRowStartNumber = 9;
 
-        if (rowCount == 1) {
+        createAvgColumns(row, columnInRowStartNumber, dataRowNumber, dataFromSimulationStartRowNumber);
 
-            for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + columnInRowStartNumber);
-                cell.setCellFormula("SUM(" +
-                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + 1) + ":" + dataColumnSymbols[i] + "" +
-                        (dataFromSimulationStartRowNumber + firstRangeIterationCount) + ") / " + firstRangeIterationCount);
-            }
-        }
-        if (rowCount == 2)
-        {
-            for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + columnInRowStartNumber);
-                cell.setCellFormula("SUM(" +
-                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
-                        (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount) + ") / " + secondRangeIterationCount);
-            }
-        }
-        if (rowCount == 3)
-        {
-            for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + columnInRowStartNumber);
-                cell.setCellFormula("(SUM(" +
-                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
-                        (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - (dataFromSimulationStartRowNumber - dataRowNumber - 1)) + ") + SUM(" +
-                        dataColumnSymbols[i] + "" + dataRowNumber + ":" + dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber) +
-                        ")) / " + thirdRangeIterationCount);
-            }
-        }
-        if (rowCount == 4)
-        {
-            for (int i = 0; i < dataColumnSymbols.length; i++) {
-                cell = row.createCell(i + columnInRowStartNumber);
-                cell.setCellFormula("SUM(" +
-                        dataColumnSymbols[i] + "" + (dataRowNumber) + ":" + dataColumnSymbols[i] + "" +
-                        (dataRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - 1) + ") / " + iterationCount);
-            }
-        }
+    }
 
+    private void createAvgColumns(Row row, int columnInRowStartNumber, int dataRowNumber, int dataFromSimulationStartRowNumber) {
+        Cell cell;
+        switch (this.rowCount) {
+            case 1:
+                for (int i = 0; i < dataColumnSymbols.length; i++) {
+                    cell = row.createCell(i + columnInRowStartNumber);
+                    cell.setCellFormula("SUM(" +
+                            dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + 1) + ":" + dataColumnSymbols[i] + "" +
+                            (dataFromSimulationStartRowNumber + firstRangeIterationCount) + ") / " + firstRangeIterationCount);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < dataColumnSymbols.length; i++) {
+                    cell = row.createCell(i + columnInRowStartNumber);
+                    cell.setCellFormula("SUM(" +
+                            dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
+                            (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount) + ") / " + secondRangeIterationCount);
+                }
+                break;
+            case 3:
+                for (int i = 0; i < dataColumnSymbols.length; i++) {
+                    cell = row.createCell(i + columnInRowStartNumber);
+                    cell.setCellFormula("(SUM(" +
+                            dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
+                            (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - (dataFromSimulationStartRowNumber - dataRowNumber - 1)) + ") + SUM(" +
+                            dataColumnSymbols[i] + "" + dataRowNumber + ":" + dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber) +
+                            ")) / " + thirdRangeIterationCount);
+                }
+                break;
+            case 4:
+                for (int i = 0; i < dataColumnSymbols.length; i++) {
+                    cell = row.createCell(i + columnInRowStartNumber);
+                    cell.setCellFormula("SUM(" +
+                            dataColumnSymbols[i] + "" + (dataRowNumber) + ":" + dataColumnSymbols[i] + "" +
+                            (dataRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - 1) + ") / " + iterationCount);
+                }
+                break;
+        }
     }
 
     public List<IterationDataCounter> getIterationDataCounterList() {
