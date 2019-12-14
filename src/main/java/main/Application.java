@@ -16,6 +16,13 @@ public class Application {
 	private static final Double iterationTimeOffset = 0.5D; // half hour
 	private static final Integer iterationCount = new BigDecimal(24).divide(new BigDecimal(iterationTimeOffset), 0, RoundingMode.HALF_UP).intValue();
 
+	private static final Double timeRangeOneStart = 5D;
+	private static final Double timeRangeOneEnd = 11D;
+	private static final Double timeRangeTwoStart = 11D;
+	private static final Double timeRangeTwoEnd = 17D;
+	private static final Double timeRangeThreeStart = 17D;
+	private static final Double timeRangeThreeEnd = 5D;
+
 
 	public static void main(String[] args) throws IOException {
 		Simulator simulator = new Simulator.Builder()
@@ -26,14 +33,14 @@ public class Application {
 				.startTime(2.5) // to make 14:00 the middle of normal distribution
 				.endTime(24D + 2.5 - iterationTimeOffset)
 				.iterationCount(iterationCount)
-				.timeRangeOneStart(5D)
-				.timeRangeOneEnd(14D)
+				.timeRangeOneStart(timeRangeOneStart)
+				.timeRangeOneEnd(timeRangeOneEnd)
 				.timeRangeOneModifier(1D)
-				.timeRangeTwoStart(14D)
-				.timeRangeTwoEnd(18D)
+				.timeRangeTwoStart(timeRangeTwoStart)
+				.timeRangeTwoEnd(timeRangeTwoEnd)
 				.timeRangeTwoModifier(1.3D)
-				.timeRangeThreeStart(18D)
-				.timeRangeThreeEnd(5D)
+				.timeRangeThreeStart(timeRangeThreeStart)
+				.timeRangeThreeEnd(timeRangeThreeEnd)
 				.timeRangeThreeModifier(2D)
 				.iterationCount((int) (1/iterationTimeOffset * 24))
 				.animalPercentage(0.05)
@@ -47,6 +54,13 @@ public class Application {
 
 
 		String excelFilePath = "NiceContextData.xls";
+
+		excelWriter.setIterationCount(iterationCount);
+		excelWriter.setFirstRangeIterationCount(new BigDecimal(timeRangeOneEnd - timeRangeOneStart).abs().divide(new BigDecimal(iterationTimeOffset), 0, RoundingMode.HALF_UP).intValue());
+		excelWriter.setSecondRangeIterationCount(new BigDecimal(timeRangeTwoEnd - timeRangeTwoStart).abs().divide(new BigDecimal(iterationTimeOffset), 0, RoundingMode.HALF_UP).intValue());
+		excelWriter.setThirdRangeIterationCount(new BigDecimal(timeRangeThreeEnd - timeRangeThreeStart).abs().divide(new BigDecimal(iterationTimeOffset), 0, RoundingMode.HALF_UP).intValue());
+
+
 		excelWriter.writeExcel(excelWriter.getIterationDataCounterList(), excelFilePath);
 
 	}

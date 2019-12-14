@@ -14,6 +14,14 @@ import java.util.List;
 public class ExcelWriter {
     private List<IterationDataCounter> iterationDataCounterList;
     private int rowCount=0;
+
+    private int iterationCount;
+    private int firstRangeIterationCount;
+    private int secondRangeIterationCount;
+    private int thirdRangeIterationCount;
+
+    private String[] dataColumnSymbols = {"B","C","D","E","F","G","H"};
+
     public ExcelWriter()
     {
         this.iterationDataCounterList = new ArrayList<>();
@@ -36,7 +44,7 @@ public class ExcelWriter {
     private void writeHeader(Row row)
     {
         Cell cell = row.createCell(0);
-        cell.setCellValue("Iteration");
+        cell.setCellValue("Iteration Time");
 
         cell = row.createCell(1);
         cell.setCellValue("Individuality");
@@ -75,7 +83,7 @@ public class ExcelWriter {
     private void writeData(IterationDataCounter aIterationDataCounter, Row row) {
         this.rowCount++;
         Cell cell = row.createCell(0);
-        cell.setCellValue(rowCount);
+        cell.setCellValue(aIterationDataCounter.getIterationTime());
         cell = row.createCell(1);
         cell.setCellValue(aIterationDataCounter.getIndividualityEventCounter());
 
@@ -95,72 +103,46 @@ public class ExcelWriter {
         cell = row.createCell(7);
         cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
 
+        int dataFromSimulationStartRowNumber = 7;
+        int dataRowNumber = 2;
+
         if (rowCount == 1) {
-            cell = row.createCell(9);
-            cell.setCellFormula("SUM(B2:B19) / " + 18);
-            cell = row.createCell(10);
-            cell.setCellFormula("SUM(C2:C19) / " + 18);
-            cell = row.createCell(11);
-            cell.setCellFormula("SUM(D2:D19) / " + 18);
-            cell = row.createCell(12);
-            cell.setCellFormula("SUM(E2:E19) / " + 18);
-            cell = row.createCell(13);
-            cell.setCellFormula("SUM(F2:F19) / " + 18);
-            cell = row.createCell(14);
-            cell.setCellFormula("SUM(G2:G19) / " + 18);
-            cell = row.createCell(15);
-            cell.setCellFormula("SUM(H2:H19) / " + 18);
+
+            for (int i = 0; i < dataColumnSymbols.length; i++) {
+                cell = row.createCell(i + 8);
+                cell.setCellFormula("SUM(" +
+                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + 1) + ":" + dataColumnSymbols[i] + "" +
+                        (dataFromSimulationStartRowNumber + firstRangeIterationCount) + ") / " + firstRangeIterationCount);
+            }
         }
         if (rowCount == 2)
         {
-            cell = row.createCell(9);
-            cell.setCellFormula("SUM(B20:B27) / " + 8);
-            cell = row.createCell(10);
-            cell.setCellFormula("SUM(C20:C27) / " + 8);
-            cell = row.createCell(11);
-            cell.setCellFormula("SUM(D20:D27) / " + 8);
-            cell = row.createCell(12);
-            cell.setCellFormula("SUM(E20:E27) / " + 8);
-            cell = row.createCell(13);
-            cell.setCellFormula("SUM(F20:F27) / " + 8);
-            cell = row.createCell(14);
-            cell.setCellFormula("SUM(G20:G27) / " + 8);
-            cell = row.createCell(15);
-            cell.setCellFormula("SUM(H20:H27) / " + 8);
+            for (int i = 0; i < dataColumnSymbols.length; i++) {
+                cell = row.createCell(i + 8);
+                cell.setCellFormula("SUM(" +
+                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
+                        (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount) + ") / " + secondRangeIterationCount);
+            }
         }
         if (rowCount == 3)
         {
-            cell = row.createCell(9);
-            cell.setCellFormula("SUM(B28:B49) / " + 22);
-            cell = row.createCell(10);
-            cell.setCellFormula("SUM(C28:C49) / " + 22);
-            cell = row.createCell(11);
-            cell.setCellFormula("SUM(D28:D49) / " + 22);
-            cell = row.createCell(12);
-            cell.setCellFormula("SUM(E28:E49) / " + 22);
-            cell = row.createCell(13);
-            cell.setCellFormula("SUM(F28:F49) / " + 22);
-            cell = row.createCell(14);
-            cell.setCellFormula("SUM(G28:G49) / " + 22);
-            cell = row.createCell(15);
-            cell.setCellFormula("SUM(H28:H49) / " + 22);
+            for (int i = 0; i < dataColumnSymbols.length; i++) {
+                cell = row.createCell(i + 8);
+                cell.setCellFormula("(SUM(" +
+                        dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + 1) + ":" + dataColumnSymbols[i] + "" +
+                        (dataFromSimulationStartRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - (dataFromSimulationStartRowNumber - dataRowNumber - 1)) + ") + SUM(" +
+                        dataColumnSymbols[i] + "" + dataRowNumber + ":" + dataColumnSymbols[i] + "" + (dataFromSimulationStartRowNumber) +
+                        ")) / " + thirdRangeIterationCount);
+            }
         }
         if (rowCount == 4)
         {
-            cell = row.createCell(9);
-            cell.setCellFormula("SUM(B2:B49) / " + 48);
-            cell = row.createCell(10);
-            cell.setCellFormula("SUM(C2:C49) / " + 48);
-            cell = row.createCell(11);
-            cell.setCellFormula("SUM(D2:D49) / " + 48);
-            cell = row.createCell(12);
-            cell.setCellFormula("SUM(E2:E49) / " + 48);
-            cell = row.createCell(13);
-            cell.setCellFormula("SUM(F2:F49) / " + 48);
-            cell = row.createCell(14);
-            cell.setCellFormula("SUM(G2:G49) / " + 48);
-            cell = row.createCell(15);
-            cell.setCellFormula("SUM(H2:H49) / " + 48);
+            for (int i = 0; i < dataColumnSymbols.length; i++) {
+                cell = row.createCell(i + 8);
+                cell.setCellFormula("SUM(" +
+                        dataColumnSymbols[i] + "" + (dataRowNumber) + ":" + dataColumnSymbols[i] + "" +
+                        (dataRowNumber + firstRangeIterationCount + secondRangeIterationCount + thirdRangeIterationCount - 1) + ") / " + iterationCount);
+            }
         }
 
     }
@@ -175,5 +157,21 @@ public class ExcelWriter {
     public void addToDataList(IterationDataCounter iterationDataCounter)
     {
         this.iterationDataCounterList.add(iterationDataCounter);
+    }
+
+    public void setIterationCount(int iterationCount) {
+        this.iterationCount = iterationCount;
+    }
+
+    public void setFirstRangeIterationCount(int firstRangeIterationCount) {
+        this.firstRangeIterationCount = firstRangeIterationCount;
+    }
+
+    public void setSecondRangeIterationCount(int secondRangeIterationCount) {
+        this.secondRangeIterationCount = secondRangeIterationCount;
+    }
+
+    public void setThirdRangeIterationCount(int thirdRangeIterationCount) {
+        this.thirdRangeIterationCount = thirdRangeIterationCount;
     }
 }
