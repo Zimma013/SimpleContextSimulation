@@ -12,7 +12,7 @@ public class Application {
 	// Simulation params
 	private static final Double mean = 14D; // peak time of population in simulation
 	private static final Double standardDeviation = 4D; // https://homepage.divms.uiowa.edu/~mbognar/applets/normal.html
-	private static final Integer maxPopulation = 1000;
+	private static final Integer maxPopulation = 200;
 	private static final Double iterationTimeOffset = 0.5D; // half hour
 	private static final Integer iterationCount = new BigDecimal(24).divide(new BigDecimal(iterationTimeOffset), 0, RoundingMode.HALF_UP).intValue();
 
@@ -47,7 +47,7 @@ public class Application {
 				.leaderPercentage(0.05)
 				.noMovementPercentage(0.05)
 				.offTrailPercentage(0.10)
-				.weatherPercentage(0.25)
+				.weatherPercentage(0.20)
 				.build();
 
 		simulator.simulate();
