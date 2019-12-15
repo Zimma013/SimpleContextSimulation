@@ -59,14 +59,16 @@ public class ExcelWriter {
         cell.setCellValue("Time");
 
         cell = row.createCell(5);
-        cell.setCellValue("Relation");
+        cell.setCellValue("Location");
 
         cell = row.createCell(6);
-        cell.setCellValue("Location");
+        cell.setCellValue("Activity");
+
         cell = row.createCell(7);
         cell.setCellValue("Situation");
+
         cell = row.createCell(8);
-        cell.setCellValue("Activity");
+        cell.setCellValue("Relation");
 
         cell = row.createCell(10);
         cell.setCellValue("AVG of Individuality");
@@ -75,13 +77,13 @@ public class ExcelWriter {
         cell = row.createCell(12);
         cell.setCellValue("AVG of Time");
         cell = row.createCell(13);
-        cell.setCellValue("AVG of Relation");
-        cell = row.createCell(14);
         cell.setCellValue("AVG of Location");
+        cell = row.createCell(14);
+        cell.setCellValue("AVG of Activity");
         cell = row.createCell(15);
         cell.setCellValue("AVG of Situation (S)");
         cell = row.createCell(16);
-        cell.setCellValue("AVG of Activity");
+        cell.setCellValue("AVG of Relation");
     }
     private void writeData(IterationDataCounter aIterationDataCounter, Row row) {
         this.rowCount++;
@@ -101,14 +103,16 @@ public class ExcelWriter {
         cell.setCellValue(aIterationDataCounter.getTimeEventCounter());
 
         cell = row.createCell(5);
-        cell.setCellValue(aIterationDataCounter.getRelationEventCounter());
+        cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
 
         cell = row.createCell(6);
-        cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
+        cell.setCellValue(aIterationDataCounter.getActivityEventCounter());
+
         cell = row.createCell(7);
         cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
+
         cell = row.createCell(8);
-        cell.setCellValue(aIterationDataCounter.getActivityEventCounter());
+        cell.setCellValue(aIterationDataCounter.getRelationEventCounter());
 
         int dataFromSimulationStartRowNumber = 7;
         int dataRowNumber = 2;
