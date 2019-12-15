@@ -20,7 +20,7 @@ public class ExcelWriter {
     private int secondRangeIterationCount;
     private int thirdRangeIterationCount;
 
-    private String[] dataColumnSymbols = {"B","C","D","E","F","G","H"};
+    private String[] dataColumnSymbols = {"C","D","E","F","G","H","I"};
 
     public ExcelWriter()
     {
@@ -47,65 +47,72 @@ public class ExcelWriter {
         cell.setCellValue("Iteration Time");
 
         cell = row.createCell(1);
-        cell.setCellValue("Individuality");
+        cell.setCellValue("Population");
 
         cell = row.createCell(2);
-        cell.setCellValue("Weather");
+        cell.setCellValue("Individuality");
 
         cell = row.createCell(3);
-        cell.setCellValue("Time");
+        cell.setCellValue("Weather");
 
         cell = row.createCell(4);
-        cell.setCellValue("Relation");
+        cell.setCellValue("Time");
 
         cell = row.createCell(5);
-        cell.setCellValue("Location");
+        cell.setCellValue("Relation");
+
         cell = row.createCell(6);
-        cell.setCellValue("Situation");
+        cell.setCellValue("Location");
         cell = row.createCell(7);
+        cell.setCellValue("Situation");
+        cell = row.createCell(8);
         cell.setCellValue("Activity");
 
-        cell = row.createCell(9);
-        cell.setCellValue("AVG of Individuality");
         cell = row.createCell(10);
-        cell.setCellValue("AVG of Weather");
+        cell.setCellValue("AVG of Individuality");
         cell = row.createCell(11);
-        cell.setCellValue("AVG of Time");
+        cell.setCellValue("AVG of Weather (P)");
         cell = row.createCell(12);
-        cell.setCellValue("AVG of Relation");
+        cell.setCellValue("AVG of Time");
         cell = row.createCell(13);
-        cell.setCellValue("AVG of Location");
+        cell.setCellValue("AVG of Relation");
         cell = row.createCell(14);
-        cell.setCellValue("AVG of Situation");
+        cell.setCellValue("AVG of Location");
         cell = row.createCell(15);
+        cell.setCellValue("AVG of Situation (S)");
+        cell = row.createCell(16);
         cell.setCellValue("AVG of Activity");
     }
     private void writeData(IterationDataCounter aIterationDataCounter, Row row) {
         this.rowCount++;
         Cell cell = row.createCell(0);
-        cell.setCellValue(aIterationDataCounter.getIterationTime());
+        cell.setCellValue(aIterationDataCounter.getIterationTime() <= 24D ? aIterationDataCounter.getIterationTime() : aIterationDataCounter.getIterationTime() - 24D);
+
         cell = row.createCell(1);
-        cell.setCellValue(aIterationDataCounter.getIndividualityEventCounter());
+        cell.setCellValue(aIterationDataCounter.getPopulationCount());
 
         cell = row.createCell(2);
-        cell.setCellValue(aIterationDataCounter.getWeatherAlertCounter());
+        cell.setCellValue(aIterationDataCounter.getIndividualityEventCounter());
 
         cell = row.createCell(3);
-        cell.setCellValue(aIterationDataCounter.getTimeEventCounter());
+        cell.setCellValue(aIterationDataCounter.getWeatherAlertCounter());
 
         cell = row.createCell(4);
-        cell.setCellValue(aIterationDataCounter.getRelationEventCounter());
+        cell.setCellValue(aIterationDataCounter.getTimeEventCounter());
 
         cell = row.createCell(5);
-        cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
+        cell.setCellValue(aIterationDataCounter.getRelationEventCounter());
+
         cell = row.createCell(6);
-        cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
+        cell.setCellValue(aIterationDataCounter.getLocationEventCounter());
         cell = row.createCell(7);
+        cell.setCellValue(aIterationDataCounter.getSituationAlertCounter());
+        cell = row.createCell(8);
         cell.setCellValue(aIterationDataCounter.getActivityEventCounter());
 
         int dataFromSimulationStartRowNumber = 7;
         int dataRowNumber = 2;
-        int columnInRowStartNumber = 9;
+        int columnInRowStartNumber = 10;
 
         createAvgColumns(row, columnInRowStartNumber, dataRowNumber, dataFromSimulationStartRowNumber);
 

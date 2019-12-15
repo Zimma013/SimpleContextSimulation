@@ -42,7 +42,7 @@ public class Simulator {
 		{
 			while (true) {
 				int randomNum = ThreadLocalRandom.current().nextInt(1, maxPopulation);
-				if (!Arrays.asList(personsInGroup).contains(randomNum))
+				if (!personsInGroup.contains(randomNum))
 				{
 					personsInGroup.add(randomNum);
 					break;
@@ -61,8 +61,7 @@ public class Simulator {
 		double iterationTime = iterationNumber * singleIterationTimeOffset + startTime; // should range from startTime to 24 + startTime (29)
 
 		iterationDataCounter.setIterationTime(iterationTime);
-		iterationNumber = iterationNumber;
-		iterationCount = iterationCount;
+
 		if (iterationNumber < (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
 			double normalDistributionValue = normalDistribution.cumulativeProbability(iterationTime);
 			invertedNormalDistribution.push(normalDistributionValue);
@@ -76,6 +75,8 @@ public class Simulator {
 			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
 		}
 
+		iterationDataCounter.setPopulationCount(currentPopulationCount);
+
 		// one iteration is checking one person from population
 		for (int pop = 0; pop < currentPopulationCount; pop++) {
 			// weather alerts
@@ -87,21 +88,21 @@ public class Simulator {
 			iterationDataCounter.incrementTimeCounter(1);
 			if(iterationTime >= this.timeRangeOneStart && iterationTime < this.timeRangeOneEnd)
 			{
-				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeOneModifier)
+				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeOneModifier)
 				{
 					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			} else if(iterationTime >= this.timeRangeTwoStart && iterationTime < this.timeRangeTwoEnd)
 			{
-				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeTwoModifier)
+				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeTwoModifier)
 				{
 					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			}
 			else {
-				if(rnd.nextDouble() <= weatherPercentage* this.timeRangeThreeModifier)
+				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeThreeModifier)
 				{
 					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
@@ -117,7 +118,7 @@ public class Simulator {
 				iterationDataCounter.incrementRelationCounter(1);
 				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
-			else if((Arrays.asList(personsInGroup).contains(pop)) && (rnd.nextDouble() <= leaderPercentage))
+			else if((personsInGroup.contains(pop)) && (rnd.nextDouble() <= leaderPercentage))
 			{
 				//TODO Inkrementacja relation
 				//TODO Inkrementacja S

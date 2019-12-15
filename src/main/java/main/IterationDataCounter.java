@@ -2,6 +2,7 @@ package main;
 
 public class IterationDataCounter {
     private double IterationTime;
+    private int PopulationCount;
     private int RelationEventCounter;
     private int ActivityEventCounter;
     private int LocationEventCounter;
@@ -12,6 +13,7 @@ public class IterationDataCounter {
 
     public IterationDataCounter() {
         IterationTime = 0;
+        PopulationCount = 0;
         RelationEventCounter = 0;
         ActivityEventCounter = 0;
         LocationEventCounter = 0;
@@ -27,6 +29,14 @@ public class IterationDataCounter {
 
     public void setIterationTime(double iterationTime) {
         IterationTime = iterationTime;
+    }
+
+    public int getPopulationCount() {
+        return PopulationCount;
+    }
+
+    public void setPopulationCount(int populationCount) {
+        PopulationCount = populationCount;
     }
 
     public int getRelationEventCounter() {
