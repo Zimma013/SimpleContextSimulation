@@ -62,18 +62,21 @@ public class Simulator {
 
 		iterationDataCounter.setIterationTime(iterationTime);
 
-		if (iterationNumber < (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
-			double normalDistributionValue = normalDistribution.cumulativeProbability(iterationTime);
+//		if (iterationNumber < (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
+			double normalDistributionValue = normalDistribution.density(iterationTime) * 10;
+			/*normalDistribution.cumulativeProbability(iterationTime);*/
+			/*normalDistribution.density(iterationTime) * 10;*/
+			/*calculateND(iterationTime);*/
 			invertedNormalDistribution.push(normalDistributionValue);
 			currentPopulationCount = (int) (normalDistributionValue * maxPopulation);
 			System.out.println("Population factor is " + normalDistributionValue);
 			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
-		} else {
+		/*} else {
 			double reverseDistributionValue = invertedNormalDistribution.pop();
 			currentPopulationCount = (int) (reverseDistributionValue * maxPopulation);
 			System.out.println("Population factor is " + reverseDistributionValue);
 			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
-		}
+		}*/
 
 		iterationDataCounter.setPopulationCount(currentPopulationCount);
 
@@ -142,6 +145,12 @@ public class Simulator {
 		}
 
 		Application.excelWriter.addToDataList(iterationDataCounter);
+	}
+
+	private double calculateND(double iterationTime) {
+		final Double mean = 14D; // peak time of population in simulation
+		final Double standardDeviation = 4D;
+		return (1/(standardDeviation * Math.sqrt(2*Math.PI)) * (Math.pow(Math.E, (-0.5 * Math.pow((iterationTime - mean)/standardDeviation, 2))))) * 10;
 	}
 
 
