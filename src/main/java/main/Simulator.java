@@ -34,8 +34,6 @@ public class Simulator {
 	private double noMovementPercentage;
 	private double offTrailPercentage;
 
-	private Stack<Double> invertedNormalDistribution = new Stack<>();
-
 	public void simulate() {
 		personsInGroup = new ArrayList<>();
 		for (int k = 0; k< maxPopulation*0.3; k++)
@@ -58,25 +56,14 @@ public class Simulator {
 	private void getSampleIteration(int iterationNumber) {
 		iterationDataCounter = new IterationDataCounter();
 		int currentPopulationCount;
-		double iterationTime = iterationNumber * singleIterationTimeOffset + startTime; // should range from startTime to 24 + startTime (29)
+		double iterationTime = iterationNumber * singleIterationTimeOffset + startTime;
 
 		iterationDataCounter.setIterationTime(iterationTime);
 
-//		if (iterationNumber < (iterationCount/2)) { // means that iterationTime is less or equal (?) to mean of normal distribution
 			double normalDistributionValue = normalDistribution.density(iterationTime) * 10;
-			/*normalDistribution.cumulativeProbability(iterationTime);*/
-			/*normalDistribution.density(iterationTime) * 10;*/
-			/*calculateND(iterationTime);*/
-			invertedNormalDistribution.push(normalDistributionValue);
 			currentPopulationCount = (int) (normalDistributionValue * maxPopulation);
 			System.out.println("Population factor is " + normalDistributionValue);
 			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
-		/*} else {
-			double reverseDistributionValue = invertedNormalDistribution.pop();
-			currentPopulationCount = (int) (reverseDistributionValue * maxPopulation);
-			System.out.println("Population factor is " + reverseDistributionValue);
-			System.out.println("Population in " + iterationTime + ": " + currentPopulationCount);
-		}*/
 
 		iterationDataCounter.setPopulationCount(currentPopulationCount);
 
@@ -85,60 +72,46 @@ public class Simulator {
 			// weather alerts
 			Random rnd = new Random();
 
-			//TODO:: generate weather alerts
-			//TODO Inkrementacja Individuality, Time
 			iterationDataCounter.incrementIndividualityCounter(1);
 			iterationDataCounter.incrementTimeCounter(1);
 			if(iterationTime >= this.timeRangeOneStart && iterationTime < this.timeRangeOneEnd)
 			{
 				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeOneModifier)
 				{
-					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			} else if(iterationTime >= this.timeRangeTwoStart && iterationTime < this.timeRangeTwoEnd)
 			{
 				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeTwoModifier)
 				{
-					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			}
 			else {
 				if(rnd.nextDouble() <= weatherPercentage * this.timeRangeThreeModifier)
 				{
-					//TODO Inkrementacja P
 					iterationDataCounter.incrementWeatherAlertCounter(1);
 				}
 			}
 
 			// situation alerts
-			//TODO:: generate situation alerts
 			if(rnd.nextDouble() <= animalPercentage)
 			{
-				//TODO Inkrementacja relation
-				//TODO Inkrementacja S
 				iterationDataCounter.incrementRelationCounter(1);
 				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if((personsInGroup.contains(pop)) && (rnd.nextDouble() <= leaderPercentage))
 			{
-				//TODO Inkrementacja relation
-				//TODO Inkrementacja S
 				iterationDataCounter.incrementRelationCounter(1);
 				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if(rnd.nextDouble() <= noMovementPercentage)
 			{
-				//TODO Inkrementacja activity
-				//TODO Inkrementacja S
 				iterationDataCounter.incrementActivityCounter(1);
 				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
 			else if(rnd.nextDouble() <= offTrailPercentage)
 			{
-				//TODO Inkrementacja location
-				//TODO Inkrementacja S
 				iterationDataCounter.incrementLocationCounter(1);
 				iterationDataCounter.incrementSituationAlertCounter(1);
 			}
@@ -146,13 +119,6 @@ public class Simulator {
 
 		Application.excelWriter.addToDataList(iterationDataCounter);
 	}
-
-	private double calculateND(double iterationTime) {
-		final Double mean = 14D; // peak time of population in simulation
-		final Double standardDeviation = 4D;
-		return (1/(standardDeviation * Math.sqrt(2*Math.PI)) * (Math.pow(Math.E, (-0.5 * Math.pow((iterationTime - mean)/standardDeviation, 2))))) * 10;
-	}
-
 
 	private Simulator(Builder builder) {
 		iterationDataCounter = builder.iterationDataCounter;
